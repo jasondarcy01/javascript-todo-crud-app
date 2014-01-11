@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <title>Todo</title>
+        <style>
+            ul {
+                list-style: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>To Do List</h1>
+
+        <input type="text" name="fitem" id="fitem">
+        <button onclick="todo();">Add Item</button>
+       
+        <ul id="todolist">
+            <li></li>
+        </ul>
+
+        <script>
+            function todo() {
+                // intialize - userinput "search box"
+                var val = document.getElementById("fitem").value;
+
+                // intialize - create buttons and corresponding text
+                var btnEdit = document.createElement("Button");
+                var textEdit = document.createTextNode("Edit");
+                var btnDelete = document.createElement("Button");
+                var textDelete = document.createTextNode("Delete");
+
+                 // merges name to button
+                btnEdit.appendChild(textEdit);
+                btnDelete.appendChild(textDelete);
+
+
+                var item = document.createElement("li");
+                // when create new, you get the item and edit & delete button. However, it does not create new line.
+                item.innerHTML = val;
+                item.appendChild(btnDelete);
+                item.appendChild(btnEdit);
+              
+                // takes the 3 items above and creates a new line.
+                var list = document.getElementById("todolist");
+                list.appendChild(item);
+
+
+                // event listner - edit
+                btnEdit.onclick = function () {
+                    var promptItem = prompt("Please enter the new value", "");
+                    if (promptItem != null) {
+                        // this = btnEdit. parentNode = li
+                        var selectedLi = this.parentNode;
+                        // edits the text 
+                        selectedLi.innerHTML = promptItem;
+                        // adds new buttons after 
+                        selectedLi.appendChild(btnDelete);
+                        selectedLi.appendChild(btnEdit);
+                    }
+                }
+
+                // event listner - delete
+                btnDelete.onclick = function () {
+                    // this = btnDelete. parentNode = li
+                    var selectedLi = this.parentNode;
+                    // the second parentNode takes us from li to ui (step up - to the next parent). This is odd bc you have to take 3 steps instead of one. so go to parent to go back to the child. 
+                    selectedLi.parentNode.removeChild(selectedLi);
+                }   
+            }
+
+        </script>
+    </body>
+
+</html>
